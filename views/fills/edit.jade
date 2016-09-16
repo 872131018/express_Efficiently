@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+    h1.
+        Fill ID #{fill._id}
+    form(action='/fills/#{fill._id}/edit',method='post',name='updatefill',enctype='application/x-www-form-urlencoded')
+        p Station:
+            input#inputStation(type='text', value='#{fill.station}', name='station')
+        p Address:
+            input#inputAddress(type='text', value='#{fill.address}', name='address')
+        p Gallons:
+            input#inputGallons(type='number', value='#{fill.gallons}', name='gallons')
+        p Miles:
+            input#inputMiles(type='number', value='#{fill.miles}', name='miles')
+        p Price:
+            input#inputPrice(type='number', value='#{fill.price}', name='price')
+        p
+            input(type='hidden',value='PUT',name='_method')
+        p
+            button#btnSubmit(type='submit').
+                Update

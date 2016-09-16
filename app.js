@@ -10,12 +10,17 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/nodewebappdb');
 /*
-* Import db files
+* Import db files and the models
 */
 var db = require('./model/db');
+var fill = require('./model/fills');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+/*
+* Add the route for the fill ups
+*/
+var fills = require('./routes/fills');
 
 var app = express();
 
@@ -33,6 +38,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+/*
+* A route for the fill up section
+*/
+app.use('/fills', fills);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

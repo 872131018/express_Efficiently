@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+    h1.
+        #{title}
+    form#formAddFill(name="addfill",method="post",action="/fills")
+        p Station:
+            input#inputStation(type="text", placeholder="ex. Conoco", name="station")
+        p Address:
+            input#inputAddress(type="text", placeholder="ex. 123 Easy st", name="address")
+        p Gallons:
+            input#inputGallons(type="number", name="Gallons")
+        p Miles:
+            input#inputMiles(type="number", name="miles")
+        p Price:
+            input#inputPrice(type="number", name="price")
+        p
+            button#btnSubmit(type="submit") submit
