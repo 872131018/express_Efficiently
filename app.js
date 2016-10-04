@@ -8,12 +8,12 @@ var bodyParser = require('body-parser');
 * Use mongoDB with mongoose
 */
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/nodewebappdb');
+mongoose.createConnection('mongodb://localhost/nodewebappdb');
 /*
 * Import db files and the models
 */
-var db = require('./model/db');
-var fill = require('./model/fills');
+var db = require('./models/db');
+var fill = require('./models/fills');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');

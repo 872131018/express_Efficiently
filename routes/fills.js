@@ -4,7 +4,7 @@ var mongoose = require('mongoose'); //mongo connection
 var bodyParser = require('body-parser'); //parses information from POST
 var methodOverride = require('method-override'); //used to manipulate POST
 /*
-* Define some middleware here
+* Define some middleware to handle RESTful style calls
 */
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(methodOverride(function(req, res) {
@@ -18,7 +18,7 @@ router.use(methodOverride(function(req, res) {
 
 //build the REST operations at the base for blobs
 //this will be accessible from http://127.0.0.1:3000/fills if the default route for / is left unchanged
-router.route('/').get(function(req, res, next) {
+router.get('/', function(req, res, next) {
     //retrieve all blobs from Monogo
     mongoose.model('Fill').find({}, function (err, fills) {
         if (err) {
@@ -30,7 +30,7 @@ router.route('/').get(function(req, res, next) {
                 fills[fill].date = fill_date;
             }
             // return the fills index page
-            res.render('fills/index', {
+            res.render('index_react', {
                 title: 'All my Fill Ups',
                 'fills' : fills
             });
@@ -38,7 +38,7 @@ router.route('/').get(function(req, res, next) {
     });
 });
 //POST a new blob
-router.route('/').post(function(req, res, next) {
+router.post('/', function(req, res, next) {
     // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
     var station = req.body.station;
     var address = req.body.address;
@@ -160,7 +160,7 @@ router.delete('/:id/edit', function (req, res) {
                 if (err) {
                     return console.error(err);
                 } else {
-                    res.redirect("/blobs");
+                    res.redirect("/fills");
                 }
             });
         }
