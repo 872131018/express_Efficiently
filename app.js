@@ -5,6 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 /*
+* Used for input method spoofing
+*/
+var methodOverride = require('method-override');
+/*
 * Use mongoDB with mongoose
 */
 var mongoose = require('mongoose');
@@ -35,6 +39,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+/*
+* Define some middleware to handle RESTful style calls
+*/
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride(function(req, res) {
+      if(req.body && typeof req.body === 'object' && '_method' in req.body) {
+        // look in urlencoded POST bodies and delete it
+        var method = req.body._method;
+        delete req.body._method;
+        return method;
+      }
+}));
 
 app.use('/', routes);
 app.use('/users', users);
