@@ -30,8 +30,7 @@ router.get('/', function(req, res, next) {
                 fills[fill].date = fill_date;
             }
             // return the fills index page
-            res.render('index_react', {
-                title: 'All my Fill Ups',
+            res.render('index', {
                 'fills' : fills
             });
         }

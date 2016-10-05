@@ -1,5 +1,25 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+    div(class='container')
+        div(class='row')
+            div(class='col-md-10 col-md-offset-1')
+                div(class='panel panel-default')
+                    div(class='panel-heading') Dashboard
+                    div(class='panel-body') You are logged in!
+
+                        div(id='header')
+                        div(id='add')
+                        ul
+                            - each fill, i in fills
+                                li
+                                    = fill_date
+                                    = fill.station
+                                    = fill.address
+                                    form(action='/fills/#{fill._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                                        input(type='hidden',value='DELETE',name='_method')
+                                        button(type='submit') Delete
+                                p
+                                    a(href='/fills/#{fill._id}/edit') Edit
+                                p
+                                    a(href='/fills/#{fill._id}') Show
