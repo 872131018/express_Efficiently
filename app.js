@@ -17,14 +17,14 @@ mongoose.createConnection('mongodb://localhost/nodewebappdb');
 * Import db files and the models
 */
 var db = require('./models/db');
-var fill = require('./models/fills');
+var fillup = require('./models/fillup');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 /*
 * Add the route for the fill ups
 */
-var fills = require('./routes/fills');
+var fillups = require('./routes/fillups');
 
 var app = express();
 
@@ -57,7 +57,7 @@ app.use('/users', users);
 /*
 * A route for the fill up section
 */
-app.use('/fills', fills);
+app.use('/fillups', fills);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

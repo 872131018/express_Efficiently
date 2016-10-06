@@ -6,18 +6,18 @@ var mongoose = require('mongoose'); //mongo connection
 //this will be accessible from http://127.0.0.1:3000/fills if the default route for / is left unchanged
 router.get('/', function(req, res, next) {
     //retrieve all blobs from Monogo
-    mongoose.model('Fill').find({}, function (err, fills) {
+    mongoose.model('Fillup').find({}, function (err, fillups) {
         if (err) {
             return console.error(err);
         } else {
-            for(fill in fills) {
-                var fill_date = fills[fill].date.toISOString();
-                fill_date = fill_date.substring(0, fill_date.indexOf('T'));
-                fills[fill].date = fill_date;
+            for(fillup in fillups) {
+                var fillup_date = fillups[fillup].date.toISOString();
+                fillup_date = fillup_date.substring(0, fillup_date.indexOf('T'));
+                fillups[fillup].date = fillup_date;
             }
             // return the fills index page
             res.render('index', {
-                'fills' : fills
+                'fillups' : fillups
             });
         }
     });

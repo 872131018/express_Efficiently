@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 /*
 * Define the schema
 */
-var fillSchema = new mongoose.Schema({
+var fillupSchema = new mongoose.Schema({
     date : {
         type : Date,
         default : Date.now
@@ -13,4 +13,4 @@ var fillSchema = new mongoose.Schema({
     miles : Number,
     price : Number
 });
-mongoose.model('Fill', fillSchema);
+mongoose.model('Fillup', fillupSchema);
