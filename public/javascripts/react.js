@@ -19,44 +19,44 @@ var Add = React.createClass({
     }
 });
 var FillList = React.createClass({
+    componentDidMount: function() {
+        $.ajax({
+            url: this.props.url,
+            dataType: 'JSON',
+            success: function(data) {
+                this.setState({fills: data});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        });
+    }
     render: function() {
-        var fills = [
-            {
-                _id: 57f410453c23f81d05abe6bd,
-                station: 'conoco',
-                address: '123 colfax ave',
-                gallons: 10,
-                miles: 400,
-                price: 2.14,
-                __v: 0,
-                date: Tue Oct 04 2016 14:25:41 GMT-0600 (MDT)
-            }, {
-                _id: 57f53f8332bc1e1e714f67e4,
-                station: 'test',
-                address: '435 test st',
-                gallons: 10,
-                miles: 310,
-                price: 1.78,
-                __v: 0,
-                date: Wed Oct 05 2016 11:59:31 GMT-0600 (MDT)
-            }, {
-                _id: 57f56a8f401ec72b51cc0bee,
-                station: '7-11',
-                address: '12 broadway',
-                gallons: 8,
-                miles: 280,
-                price: 2.42,
-                __v: 0,
-                date: Wed Oct 05 2016 15:03:11 GMT-0600 (MDT)
-            }
-        ];
+        var fill_list = this.props.fills.map(function(fill) {
+            return (
+                <ul>
+                    <Fill date={ fill.date } station={ fill.station } address={ fill.address }>
+                        {comment.text}
+                    </Fill>
+                </ul>
+            );
+        });
         return (
-            fills.map(function(fill) {
-                return (
-
-                )
-            });
-        )
+            <div className="fillList">
+                { fill_list }
+            </div>
+        );
+    }
+});
+var Fill = React.createClass({
+    render: function() {
+        return (
+            <div>
+                <li>{ this.props.date }</li>
+                <li>{ this.props.station }</li>
+                <li>{ this.props.address }</li>
+            </div>
+        );
     }
 });
 /*
@@ -77,6 +77,6 @@ ReactDOM.render(
 * Render the fill up list component
 */
 ReactDOM.render(
-    <FillList data={ this.state.data }/>,
+    <FillList url='/public/fills.json'/>,
     document.getElementById('fill_list')
 );
