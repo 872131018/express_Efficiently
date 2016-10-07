@@ -12,7 +12,6 @@ var methodOverride = require('method-override');
 * Use mongoDB with mongoose
 */
 var mongoose = require('mongoose');
-mongoose.createConnection('mongodb://localhost/nodewebappdb');
 /*
 * Import db files and the models
 */
@@ -57,7 +56,7 @@ app.use('/users', users);
 /*
 * A route for the fill up section
 */
-app.use('/fillups', fills);
+app.use('/fillups', fillups);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,5 +1,7 @@
 var List_fillups = React.createClass({
-    getInitialState: () => ({ fillups: [] }),
+    getInitialState: function() {
+        return { fillups: [] };
+    },
     componentDidMount: function() {
         $.ajax({
             url: this.props.url,
@@ -15,6 +17,7 @@ var List_fillups = React.createClass({
     },
     render: function() {
         var fillup_list = this.state.fillups.map(function(fillup) {
+            fillup.date = fillup.date.substr(0, fillup.date.indexOf('T'));
             return (
                 <Fillup
                     key={ fillup._id }
@@ -49,6 +52,6 @@ var Fillup = React.createClass({
 * Render the fill up list component
 */
 ReactDOM.render(
-    <List_fillups url='fills.json'/>,
+    <List_fillups url='/fillups'/>,
     document.getElementById('list_fillups')
 );

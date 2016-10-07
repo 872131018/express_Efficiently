@@ -2,25 +2,25 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose'); //mongo connection
 
-//build the REST operations at the base for blobs
-//this will be accessible from http://127.0.0.1:3000/fills if the default route for / is left unchanged
+/*
+* Default route for /fillups
+*/
 router.get('/', function(req, res, next) {
-    //retrieve all blobs from Monogo
-    mongoose.model('Fillup').find({}, function (err, fillups) {
-        if (err) {
-            return console.error(err);
-        } else {
-            for(fillup in fillups) {
-                var fillup_date = fillups[fillup].date.toISOString();
-                fillup_date = fillup_date.substring(0, fillup_date.indexOf('T'));
-                fillups[fillup].date = fillup_date;
+    /*
+    * If ajax request send fillup data as json otherwise render page
+    */
+    if(req.xhr) {
+        mongoose.model('Fillup').find({}, function (err, fillups) {
+            if (err) {
+                return console.error(err);
+            } else {
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(fillups));
             }
-            // return the fills index page
-            res.render('index', {
-                'fillups' : fillups
-            });
-        }
-    });
+        });
+    } else {
+        res.render('index', {});
+    }
 });
 //POST a new blob
 router.post('/', function(req, res, next) {
