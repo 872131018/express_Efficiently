@@ -22,29 +22,27 @@ router.get('/', function(req, res, next) {
         res.render('index', {});
     }
 });
-//POST a new blob
+/*
+* Post route for a new fillup
+*/
 router.post('/', function(req, res, next) {
-    // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
-    var station = req.body.station;
-    var address = req.body.address;
-    var gallons = req.body.gallons;
-    var miles = req.body.miles;
-    var price = req.body.price;
-    //call the create function for our database
-    mongoose.model('Fill').create({
-        station : station,
-        address : address,
-        gallons : gallons,
-        miles : miles,
-        price : price
-    }, function (err, fill) {
+    /*
+    * Set fields in the schema for fillup
+    */
+    mongoose.model('Fillup').create({
+        station : req.body.station,
+        address : req.body.address,
+        gallons : req.body.gallons,
+        miles : req.body.miles,
+        price : req.body.price
+    }, function (err, fillup) {
         if (err) {
             res.send("There was a problem adding the information to the database.");
         } else {
-            // If it worked and fill was created, set the header so the address bar doesn't still say /addfills
-            res.location("fills");
-            // And forward to success page
-            res.redirect("/fills");
+            /*
+            * On success rerender index page 
+            */
+            res.render('index', {});
         }
     })
 });
