@@ -54,11 +54,16 @@ html(lang='en')
                             @endif
         block content
 
+        <!-- Load External Scripts -->
         script(type='text/javascript', src='https://unpkg.com/react@15.3.0/dist/react.js')
         script(type='text/javascript', src='https://unpkg.com/react-dom@15.3.0/dist/react-dom.js')
         script(type='text/javascript', src='https://unpkg.com/babel-standalone@6.15.0/babel.min.js')
         //- script(type='text/javascript', src='https://unpkg.com/jquery@3.1.0/dist/jquery.min.js')
         script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js', integrity='sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb', crossorigin='anonymous')
         script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js', integrity='sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS', crossorigin='anonymous')
-        script(type='text/babel' src='/javascripts/list_fillups.js')
-        script(type='text/babel' src='/javascripts/add_fillup.js')
+        <!-- Load Internal Scripts -->
+        script(type='text/babel' src='/javascripts/react_list_fillups.js')
+        script(type='text/babel' src='/javascripts/react_edit_fillup.js')
+        script(type='text/babel' src='/javascripts/react_add_fillup.js')
+        script(type='text/javascript' src='/javascripts/delegate_fillup_edit.js')
+        script(type='text/javascript' src='/javascripts/delegate_fillup_delete.js')

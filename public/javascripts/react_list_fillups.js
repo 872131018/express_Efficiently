@@ -21,6 +21,7 @@ var List_fillups = React.createClass({
             return (
                 <Fillup
                     key={ fillup._id }
+                    id={ fillup._id }
                     station={ fillup.station }
                     address={ fillup.address }
                     date={ fillup.date }
@@ -28,11 +29,21 @@ var List_fillups = React.createClass({
             );
         });
         return (
-            <div className="fillList">
+            <div>
+                <a href={ this.props.url + "/new" } type="button" className="btn btn-success" role="button">Add Fillup</a>
                 <h1>A List of Fillups</h1>
-                <ul>
-                    { fillup_list }
-                </ul>
+                <table className="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Station</th>
+                            <th>Address</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        { fillup_list }
+                    </tbody>
+                </table>
             </div>
         );
     }
@@ -40,11 +51,17 @@ var List_fillups = React.createClass({
 var Fillup = React.createClass({
     render: function() {
         return (
-            <li>
-                <p>{ this.props.station }</p>
-                <p>{ this.props.address }</p>
-                <p>{ this.props.date }</p>
-            </li>
+            <tr>
+                <td data-field="station">{ this.props.station }</td>
+                <td data-field="address">{ this.props.address }</td>
+                <td data-field="date">{ this.props.date }</td>
+                <td>
+                    <a href={ "/fillups/" + this.props.id } type="button" className="btn btn-primary" role="button">Edit</a>
+                </td>
+                <td>
+                    <button type="button" className="btn btn-danger" data-delegate="fillup_delete" data-id={ this.props.id }>Delete</button>
+                </td>
+            </tr>
         );
     }
 });

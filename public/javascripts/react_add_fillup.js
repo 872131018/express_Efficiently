@@ -1,9 +1,10 @@
-var FillForm = React.createClass({
+var Fillup_form = React.createClass({
     getInitialState: function() {
         return {
             inputs: [
                 'station', 'address',
-                'gallons', 'miles', 'price'
+                'gallons', 'miles',
+                'price'
             ]
         };
     },
@@ -17,13 +18,17 @@ var FillForm = React.createClass({
             );
         });
         return (
-            <form action={ this.props.url } method="POST" role="form" className="form-horizontal">
-                { input_list }
-                <div className="col-sm-2"></div>
-                <div className="col-sm-10">
-                    <button type="submit" className="btn btn-success">Add Fillup</button>
-                </div>
-            </form>
+            <div>
+                <a href={ this.props.url + "/new" } type="button" className="btn btn-success" role="button">Show List</a>
+                <h1>Add a new Fillup</h1>
+                <form action={ this.props.url } method="POST" role="form" className="form-horizontal">
+                    { input_list }
+                    <div className="col-sm-2"></div>
+                    <div className="col-sm-10">
+                        <button type="submit" className="btn btn-success">Add Fillup</button>
+                    </div>
+                </form>
+            </div>
         );
     }
 });
@@ -45,6 +50,6 @@ var Input = React.createClass({
 * Render the add fill form
 */
 ReactDOM.render(
-    <FillForm url='/fillups'/>,
+    <Fillup_form url='/fillups'/>,
     document.getElementById('add_fillup')
 );

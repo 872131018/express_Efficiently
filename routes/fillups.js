@@ -23,9 +23,43 @@ router.get('/', function(req, res, next) {
     }
 });
 /*
+* Delete spoofed method for deleting from list
+*/
+router.delete('/', function(req, res, next) {
+    /*
+    * Retrieve model by passed id and delete it
+    */
+    mongoose.model('Fillup').findById(req.body.id, function (err, fillup) {
+        if (err) {
+            return console.error(err);
+        } else {
+            fillup.remove(function (err, fillup) {
+                if (err) {
+                    return console.error(err);
+                } else {
+                    /*
+                    * On success redirect to index page with cleared input
+                    */
+                    res.location('/fillups');
+                    res.redirect('/fillups');
+                }
+            });
+        }
+    });
+});
+/*
+* Default route for /fillups
+*/
+router.get('/new', function(req, res, next) {
+    /*
+    * Render the new fillup form
+    */
+    res.render('new', {});
+});
+/*
 * Post route for a new fillup
 */
-router.post('/', function(req, res, next) {
+router.post('/new', function(req, res, next) {
     /*
     * Set fields in the schema for fillup
     */
@@ -40,38 +74,35 @@ router.post('/', function(req, res, next) {
             res.send("There was a problem adding the information to the database.");
         } else {
             /*
-            * On success rerender index page 
+            * On success redirect to index page with cleared input
             */
-            res.render('index', {});
-        }
-    })
-});
-/* GET New Fill page. */
-router.get('/new', function(req, res) {
-    res.render('fills/new', { title: 'Add New Fill Up' });
-});
-// route middleware to validate :id
-router.param('id', function(req, res, next, id) {
-    //console.log('validating ' + id + ' exists');
-    //find the ID in the Database
-    mongoose.model('Fill').findById(id, function (err, fill) {
-        //if it isn't found, we are going to repond with 404
-        if (err) {
-            res.status(404);
-            var err = new Error('Not Found');
-            err.status = 404;
-            next(err);
-        //if it is found we continue on
-        } else {
-            // once validation is done save the new item in the req
-            req.id = id;
-            // go to the next thing
-            next();
+            res.location('/fillups');
+            res.redirect('/fillups');
         }
     });
 });
+/*
+*
+*/
+router.get('/:id', function(req, res, next) {
+    /*
+    * If ajax request send fillup data as json otherwise render page
+    */
+    if(req.xhr) {
+        mongoose.model('Fillup').findById(req.id, function (err, fillup) {
+            if (err) {
+                return console.error(err);
+            } else {
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(fillup));
+            }
+        });
+    } else {
+        res.render('edit', {
+            fillup: fillup
+        });
+    }
 
-router.route('/:id').get(function(req, res) {
     mongoose.model('Fill').findById(req.id, function (err, fill) {
         if (err) {
             console.log('GET Error: There was a problem retrieving: ' + err);
@@ -130,24 +161,4 @@ router.put('/:id/edit', function(req, res) {
         });
     });
 });
-
-//DELETE a Fill by ID
-router.delete('/:id/edit', function (req, res) {
-    //find fill by ID
-    mongoose.model('Fill').findById(req.id, function (err, fill) {
-        if (err) {
-            return console.error(err);
-        } else {
-            //remove it from Mongo
-            fill.remove(function (err, fill) {
-                if (err) {
-                    return console.error(err);
-                } else {
-                    res.redirect("/fills");
-                }
-            });
-        }
-    });
-});
-
 module.exports = router;

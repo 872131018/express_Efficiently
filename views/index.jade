@@ -7,9 +7,9 @@ block content
                 div(class='panel panel-default')
                     div(class='panel-heading') Dashboard
                     div(class='panel-body') You are logged in!
-                        div(id='add_fillup')
 
                         div(id='list_fillups')
+
                         //-
                             ul
                                 - each fill, i in fills
@@ -18,8 +18,6 @@ block content
                                         = fill.station
                                         = fill.address
                                         form(action='/fills/#{fill._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
-                                            input(type='hidden',value='DELETE',name='_method')
-                                            button(type='submit') Delete
                                     p
                                         a(href='/fills/#{fill._id}/edit') Edit
                                     p
