@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require('mongoose'); //mongo connection
+/*
+* Import the database connection
+*/
+var mongoose = require('mongoose');
 
 /*
 * Default route for /fillups
@@ -59,7 +62,7 @@ router.get('/new', function(req, res, next) {
 /*
 * Post route for a new fillup
 */
-router.post('/new', function(req, res, next) {
+router.put('/new', function(req, res, next) {
     /*
     * Set fields in the schema for fillup
     */
