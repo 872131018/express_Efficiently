@@ -4,7 +4,6 @@ var router = express.Router();
 * Import the database connection
 */
 var mongoose = require('mongoose');
-
 /*
 * Default route for /fillups
 */
@@ -60,7 +59,7 @@ router.get('/new', function(req, res, next) {
     res.render('new', {});
 });
 /*
-* Post route for a new fillup
+* PUT route for a new fillup
 */
 router.put('/new', function(req, res, next) {
     /*
@@ -89,35 +88,25 @@ router.put('/new', function(req, res, next) {
 */
 router.get('/:id', function(req, res, next) {
     /*
-    * If ajax request send fillup data as json otherwise render page
+    * Load fillup from the requested ID
     */
-    if(req.xhr) {
-        mongoose.model('Fillup').findById(req.id, function (err, fillup) {
-            if (err) {
-                return console.error(err);
-            } else {
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify(fillup));
-            }
-        });
-    } else {
-        res.render('edit', {
-            fillup: fillup
-        });
-    }
-
-    mongoose.model('Fill').findById(req.id, function (err, fill) {
+    mongoose.model('Fillup').findById(req.id, function (err, fillup) {
         if (err) {
-            console.log('GET Error: There was a problem retrieving: ' + err);
+            return console.error(err);
         } else {
-            var fill_date = fill.date.toISOString();
-            fill_date = fill_date.substring(0, fill_date.indexOf('T'));
-            res.render('fills/show', {
-                "fill_date" : fill_date,
-                "fill" : fill
+            res.render('edit', {
+                fillup: fillup
             });
         }
     });
+        /*
+        var fill_date = fill.date.toISOString();
+        fill_date = fill_date.substring(0, fill_date.indexOf('T'));
+        res.render('fills/show', {
+            "fill_date" : fill_date,
+            "fill" : fill
+        });
+        */
 });
 //GET the individual fill by Mongo ID
 router.get('/:id/edit', function(req, res) {

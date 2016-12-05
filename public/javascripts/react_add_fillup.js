@@ -1,15 +1,15 @@
 var Fillup_form = React.createClass({
     getInitialState: function() {
         return {
-            inputs: [
-                'station', 'address',
-                'gallons', 'miles',
-                'price'
-            ]
+            values: []
         };
     },
     render: function() {
-        var input_list = this.state.inputs.map(function(input) {
+        var inputs = [
+            'station', 'address', 'gallons', 'miles', 'price'
+        ];
+
+        var input_list = inputs.map(function(input) {
             return (
                 <Input
                     key={ input }
@@ -19,10 +19,11 @@ var Fillup_form = React.createClass({
         });
         return (
             <div>
-                <a href={ this.props.url + "/new" } type="button" className="btn btn-success" role="button">Show List</a>
+                <a href={ this.props.url } type="button" className="btn btn-success" role="button">Show List</a>
                 <h1>Add a new Fillup</h1>
-                <form action={ this.props.url } method="POST" role="form" className="form-horizontal">
+                <form action={ this.props.url + "/new" } method="POST" role="form" className="form-horizontal">
                     { input_list }
+                    <input type="hidden" name="_method" value="PUT" />
                     <div className="col-sm-2"></div>
                     <div className="col-sm-10">
                         <button type="submit" className="btn btn-success">Add Fillup</button>

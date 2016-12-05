@@ -1,15 +1,27 @@
 var Fillup_form = React.createClass({
     getInitialState: function() {
         return {
-            inputs: [
-                'station', 'address',
-                'gallons', 'miles',
-                'price'
-            ]
+            values: []
         };
     },
+    componentDidMount: function() {
+        $.ajax({
+            url: this.props.url,
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(data) {
+                this.setState({fillups: data});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        });
+    },
     render: function() {
-        var input_list = this.state.inputs.map(function(input) {
+        var inputs = [
+            'station', 'address', 'gallons', 'miles', 'price'
+        ];
+        var input_list = inputs.map(function(input) {
             return (
                 <Input
                     key={ input }
@@ -19,13 +31,13 @@ var Fillup_form = React.createClass({
         });
         return (
             <div>
-                <a href={ this.props.url + "/new" } type="button" className="btn btn-success" role="button">Show List</a>
-                <h1>Add a new Fillup</h1>
-                <form action={ this.props.url } method="POST" role="form" className="form-horizontal">
+                <a href={ this.props.url } type="button" className="btn btn-success" role="button">Show List</a>
+                <h1>Edit Fillup</h1>
+                <form action={ this.props.url + "/edit" } method="POST" role="form" className="form-horizontal">
                     { input_list }
                     <div className="col-sm-2"></div>
                     <div className="col-sm-10">
-                        <button type="submit" className="btn btn-success">Add Fillup</button>
+                        <button type="submit" className="btn btn-success">Edit Fillup</button>
                     </div>
                 </form>
             </div>
@@ -39,7 +51,7 @@ var Input = React.createClass({
             <div className="form-group">
                 <label htmlFor={ this.props.name } className="control-label col-sm-2">{ this.props.name }</label>
                 <div className="col-sm-8">
-                    <input type="text" name={ this.props.name } className="form-control"/>
+                    <input type="text" name={ this.props.name } value={ this.props.name } className="form-control"/>
                 </div>
                 <div className="col-sm-2"></div>
             </div>
@@ -51,5 +63,5 @@ var Input = React.createClass({
 */
 ReactDOM.render(
     <Fillup_form url='/fillups'/>,
-    document.getElementById('add_fillup')
+    document.getElementById('edit_fillup')
 );
